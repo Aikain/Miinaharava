@@ -1,44 +1,47 @@
 package fi.gosu.miinaharava;
 
 import java.awt.Container;
-import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 
 public class Kayttoliittyma implements Runnable {
 
     private JFrame frame;
-    private int width;
-    private int height;
+    private final int screenWidth, screenHeight, width, height, deep;
     private Drawer drawer;
 
-    public Kayttoliittyma() {
-        this.width = Toolkit.getDefaultToolkit().getScreenSize().width;
-        this.height = Toolkit.getDefaultToolkit().getScreenSize().height;
+    public Kayttoliittyma(int width, int height, int deep) {
+        this.screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+        this.screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+        this.width = width;
+        this.height = height;
+        this.deep = deep;
     }
 
     @Override
     public void run() {
-        frame = new JFrame("Miinaharava");
-        frame.setUndecorated(true);
-        reset();
-        createComponents(frame.getContentPane());
-        frame.pack();
-        frame.setVisible(true);
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gd = ge.getDefaultScreenDevice();
+
+        if (!gd.isWindowTranslucencySupported(GraphicsDevice.WindowTranslucency.PERPIXEL_TRANSLUCENT)) {
+            System.err.println("Shaped windows are not supported");
+            System.exit(0);
+        } else {
+            frame = new HexagonWindow(width, height, screenWidth / 2, screenHeight / 2);
+            createComponents(frame.getContentPane());
+            frame.setVisible(true);
+        }
     }
 
     private void createComponents(Container container) {
-        Hopscotch hopscotch = new Hopscotch();
-        hopscotch.createNeightborhood();
+        Hopscotch hopscotch = new Hopscotch(width / 2, height / 2);
+        for (int i = 0; i < deep; i++) {
+            hopscotch.createNeightborhood(i + 1);
+            hopscotch.clearCreated();
+        }
         drawer = new Drawer(hopscotch);
         container.add(drawer);
-    }
-
-    public void reset() {
-        frame.setLocation(width / 2 - 200, height / 2 - 200);
-        frame.setSize(400, 400);
-        frame.setPreferredSize(new Dimension(400, 400));
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 }
