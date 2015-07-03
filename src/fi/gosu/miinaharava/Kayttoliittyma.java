@@ -1,6 +1,5 @@
 package fi.gosu.miinaharava;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -9,32 +8,35 @@ import javax.swing.WindowConstants;
 
 public class Kayttoliittyma implements Runnable {
 
-    public JFrame frame;
-    public int leveys;
-    public int korkeus;
+    private JFrame frame;
+    private int width;
+    private int height;
+    private Drawer drawer;
 
     public Kayttoliittyma() {
-        this.leveys = Toolkit.getDefaultToolkit().getScreenSize().width;
-        this.korkeus = Toolkit.getDefaultToolkit().getScreenSize().height;
+        this.width = Toolkit.getDefaultToolkit().getScreenSize().width;
+        this.height = Toolkit.getDefaultToolkit().getScreenSize().height;
     }
 
     @Override
     public void run() {
         frame = new JFrame("Miinaharava");
         frame.setUndecorated(true);
-        palauta();
-        luoKomponentit(frame.getContentPane());
-        frame.addMouseListener(new HiiriKuuntelija());
+        reset();
+        createComponents(frame.getContentPane());
         frame.pack();
         frame.setVisible(true);
     }
 
-    private void luoKomponentit(Container container) {
-        //container.setLayout(null);
+    private void createComponents(Container container) {
+        Hopscotch hopscotch = new Hopscotch();
+        hopscotch.createNeightborhood();
+        drawer = new Drawer(hopscotch);
+        container.add(drawer);
     }
 
-    public void palauta() {
-        frame.setLocation(leveys / 2 - 200, korkeus / 2 - 200);
+    public void reset() {
+        frame.setLocation(width / 2 - 200, height / 2 - 200);
         frame.setSize(400, 400);
         frame.setPreferredSize(new Dimension(400, 400));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
