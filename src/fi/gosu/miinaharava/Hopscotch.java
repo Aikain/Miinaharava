@@ -1,24 +1,37 @@
 package fi.gosu.miinaharava;
 
+import java.awt.Container;
 import java.awt.Graphics;
+import java.awt.Polygon;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.JComponent;
 
-public class Hopscotch {
+public class Hopscotch extends JComponent {
 
     private final Hopscotch[] neighborhood;
-    private boolean mine, close, draw, created;
+    private boolean mine, close, draw, created, checked;
     private final int x, y;
+    private final Polygon p;
 
     public Hopscotch(int x, int y) {
-        this.mine = false;
+        if (Math.random() > 0.95) {
+            this.mine = true;
+        } else {
+            this.mine = false;
+        }
         this.neighborhood = new Hopscotch[6];
         this.close = true;
         this.draw = false;
         this.created = false;
         this.x = x;
         this.y = y;
+        setBounds(0, 0, 1000, 1000);
+        this.p = new Polygon();
+        for (int i = 0; i < 6; i++) {
+            p.addPoint((int) (x + 25 * Math.cos(i * Math.PI / 3)), (int) (y + 25 * Math.sin(i * Math.PI / 3)));
+        }
     }
 
     public boolean isMine() {
@@ -59,6 +72,13 @@ public class Hopscotch {
 
     public void open() {
         this.close = false;
+        if (neightborhoodBOOMCount() == 0) {
+            for (Hopscotch hopscotch : neighborhood) {
+                if (hopscotch != null && hopscotch.isClose()) {
+                    hopscotch.open();
+                }
+            }
+        }
     }
 
     public boolean isDraw() {
@@ -133,13 +153,74 @@ public class Hopscotch {
         return false;
     }
 
-    public void draw(Graphics g) throws IOException {
-        g.drawImage(ImageIO.read(new File("hopscotch-BOOM.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
+    public int neightborhoodBOOMCount() {
+        int n = 0;
+        for (Hopscotch hopscotch : neighborhood) {
+            if (hopscotch != null && hopscotch.isMine()) {
+                n++;
+            }
+        }
+        return n;
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        try {
+            if (close) {
+                g.drawImage(ImageIO.read(new File("hopscotch-close.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
+            } else {
+                if (mine) {
+                    g.drawImage(ImageIO.read(new File("hopscotch-BOOM.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
+                } else {
+                    if (this.neightborhoodBOOMCount() > 0) {
+                        g.drawImage(ImageIO.read(new File("hopscotch-number.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
+                    } else {
+                        g.drawImage(ImageIO.read(new File("hopscotch-empty.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
+                    }
+                }
+            }
+        } catch (IOException ex) {
+        }
+    }
+
+    public void addToContainer(Container container) {
+        container.add(this);
         this.draw = true;
         for (Hopscotch hopscotch : neighborhood) {
             if (hopscotch != null && !hopscotch.isDraw()) {
-                hopscotch.draw(g);
+                hopscotch.addToContainer(container);
             }
         }
     }
+
+    public Hopscotch findHopscotch(int x, int y) {
+        this.checked = true;
+        if (this.p.contains(x, y)) {
+            return this;
+        } else {
+            for (Hopscotch hopscotch : neighborhood) {
+                if (hopscotch != null && !hopscotch.isChecked()) {
+                    Hopscotch findHopscotch = hopscotch.findHopscotch(x, y);
+                    if (findHopscotch != null) {
+                        return findHopscotch;
+                    }
+                }
+            }
+            return null;
+        }
+    }
+
+    private boolean isChecked() {
+        return checked;
+    }
+
+    public void clearChecked() {
+        this.checked = false;
+        for (Hopscotch hopscotch : neighborhood) {
+            if (hopscotch != null && hopscotch.isChecked()) {
+                hopscotch.clearChecked();
+            }
+        }
+    }
+
 }

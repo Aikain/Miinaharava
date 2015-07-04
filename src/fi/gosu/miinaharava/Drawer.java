@@ -14,8 +14,8 @@ public class Drawer extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        this.hopscotch.draw(g);
-        this.hopscotch.clearDraw();
+//        this.hopscotch.draw(g);
+//        this.hopscotch.clearDraw();
     }
 
 }

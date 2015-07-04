@@ -10,7 +10,7 @@ public class Kayttoliittyma implements Runnable {
 
     private JFrame frame;
     private final int screenWidth, screenHeight, width, height, deep;
-    private Drawer drawer;
+    private final Hopscotch mainHopscotch;
 
     public Kayttoliittyma(int width, int height, int deep) {
         this.screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -18,6 +18,11 @@ public class Kayttoliittyma implements Runnable {
         this.width = width;
         this.height = height;
         this.deep = deep;
+        this.mainHopscotch = new Hopscotch(width / 2, height / 2);
+        for (int i = 0; i < deep; i++) {
+            this.mainHopscotch.createNeightborhood(i + 1);
+            this.mainHopscotch.clearCreated();
+        }
     }
 
     @Override
@@ -30,18 +35,22 @@ public class Kayttoliittyma implements Runnable {
             System.exit(0);
         } else {
             frame = new HexagonWindow(width, height, screenWidth / 2, screenHeight / 2);
+            frame.addMouseListener(new HiiriTesti(this));
             createComponents(frame.getContentPane());
             frame.setVisible(true);
         }
     }
 
     private void createComponents(Container container) {
-        Hopscotch hopscotch = new Hopscotch(width / 2, height / 2);
-        for (int i = 0; i < deep; i++) {
-            hopscotch.createNeightborhood(i + 1);
-            hopscotch.clearCreated();
-        }
-        drawer = new Drawer(hopscotch);
-        container.add(drawer);
+        container.setLayout(null);
+        this.mainHopscotch.addToContainer(container);
+    }
+
+    public Hopscotch getMainHopscotch() {
+        return mainHopscotch;
+    }
+
+    public void repaint() {
+        this.frame.repaint();
     }
 }
