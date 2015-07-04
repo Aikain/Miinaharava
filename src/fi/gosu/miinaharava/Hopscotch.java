@@ -183,18 +183,18 @@ public class Hopscotch extends JComponent {
     public void paint(Graphics g) {
         try {
             if (close) {
-                g.drawImage(ImageIO.read(new File("hopscotch-close.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
+                g.drawImage(ImageIO.read(new File("src/fi/gosu/miinaharava/img/hopscotch-close.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
             } else {
                 if (mine) {
-                    g.drawImage(ImageIO.read(new File("hopscotch-BOOM.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
+                    g.drawImage(ImageIO.read(new File("src/fi/gosu/miinaharava/img/hopscotch-BOOM.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
                 } else {
                     int nbc = this.neightborhoodBOOMCount();
                     if (nbc > 0) {
-                        g.drawImage(ImageIO.read(new File("hopscotch-number.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
+                        g.drawImage(ImageIO.read(new File("src/fi/gosu/miinaharava/img/hopscotch-number.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
                         g.setColor(Color.red);
                         g.drawString(nbc + "", x, y);
                     } else {
-                        g.drawImage(ImageIO.read(new File("hopscotch-empty.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
+                        g.drawImage(ImageIO.read(new File("src/fi/gosu/miinaharava/img/hopscotch-empty.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
                     }
                 }
             }
