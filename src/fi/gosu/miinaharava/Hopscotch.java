@@ -1,5 +1,6 @@
 package fi.gosu.miinaharava;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Polygon;
@@ -7,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 public class Hopscotch extends JComponent {
 
@@ -16,7 +18,7 @@ public class Hopscotch extends JComponent {
     private final Polygon p;
 
     public Hopscotch(int x, int y) {
-        if (Math.random() > 0.95) {
+        if (Math.random() > 0.8) {
             this.mine = true;
         } else {
             this.mine = false;
@@ -71,12 +73,26 @@ public class Hopscotch extends JComponent {
     }
 
     public void open() {
-        this.close = false;
-        if (neightborhoodBOOMCount() == 0) {
-            for (Hopscotch hopscotch : neighborhood) {
-                if (hopscotch != null && hopscotch.isClose()) {
-                    hopscotch.open();
+        if (this.mine) {
+            JOptionPane.showMessageDialog(this, "Hävisit");
+            this.openAll();
+        } else {
+            this.close = false;
+            if (neightborhoodBOOMCount() == 0) {
+                for (Hopscotch hopscotch : neighborhood) {
+                    if (hopscotch != null && hopscotch.isClose()) {
+                        hopscotch.open();
+                    }
                 }
+            }
+        }
+    }
+
+    public void openAll() {
+        this.close = false;
+        for (Hopscotch hopscotch : neighborhood) {
+            if (hopscotch != null && hopscotch.isClose()) {
+                hopscotch.openAll();
             }
         }
     }
@@ -172,8 +188,11 @@ public class Hopscotch extends JComponent {
                 if (mine) {
                     g.drawImage(ImageIO.read(new File("hopscotch-BOOM.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
                 } else {
-                    if (this.neightborhoodBOOMCount() > 0) {
+                    int nbc = this.neightborhoodBOOMCount();
+                    if (nbc > 0) {
                         g.drawImage(ImageIO.read(new File("hopscotch-number.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
+                        g.setColor(Color.red);
+                        g.drawString(nbc + "", x, y);
                     } else {
                         g.drawImage(ImageIO.read(new File("hopscotch-empty.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
                     }
@@ -193,20 +212,16 @@ public class Hopscotch extends JComponent {
         }
     }
 
-    public Hopscotch findHopscotch(int x, int y) {
+    public void findHopscotch(int x, int y) {
         this.checked = true;
         if (this.p.contains(x, y)) {
-            return this;
+            this.open();
         } else {
             for (Hopscotch hopscotch : neighborhood) {
                 if (hopscotch != null && !hopscotch.isChecked()) {
-                    Hopscotch findHopscotch = hopscotch.findHopscotch(x, y);
-                    if (findHopscotch != null) {
-                        return findHopscotch;
-                    }
+                    hopscotch.findHopscotch(x, y);
                 }
             }
-            return null;
         }
     }
 
@@ -221,6 +236,19 @@ public class Hopscotch extends JComponent {
                 hopscotch.clearChecked();
             }
         }
+    }
+
+    public boolean checkWin() {
+        this.checked = true;
+        if (!this.close || this.mine) {
+            for (Hopscotch hopscotch : neighborhood) {
+                if (hopscotch != null && !hopscotch.isChecked() && !hopscotch.checkWin()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
 }

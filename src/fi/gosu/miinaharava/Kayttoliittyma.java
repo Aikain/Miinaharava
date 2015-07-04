@@ -5,11 +5,12 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class Kayttoliittyma implements Runnable {
 
     private JFrame frame;
-    private final int screenWidth, screenHeight, width, height, deep;
+    private final int screenWidth, screenHeight, width, height;
     private final Hopscotch mainHopscotch;
 
     public Kayttoliittyma(int width, int height, int deep) {
@@ -17,7 +18,6 @@ public class Kayttoliittyma implements Runnable {
         this.screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
         this.width = width;
         this.height = height;
-        this.deep = deep;
         this.mainHopscotch = new Hopscotch(width / 2, height / 2);
         for (int i = 0; i < deep; i++) {
             this.mainHopscotch.createNeightborhood(i + 1);
@@ -35,7 +35,7 @@ public class Kayttoliittyma implements Runnable {
             System.exit(0);
         } else {
             frame = new HexagonWindow(width, height, screenWidth / 2, screenHeight / 2);
-            frame.addMouseListener(new HiiriTesti(this));
+            frame.addMouseListener(new ClickListener(this));
             createComponents(frame.getContentPane());
             frame.setVisible(true);
         }
@@ -52,5 +52,12 @@ public class Kayttoliittyma implements Runnable {
 
     public void repaint() {
         this.frame.repaint();
+    }
+
+    public void checkWin() {
+        if (this.mainHopscotch.checkWin()) {
+            JOptionPane.showMessageDialog(frame, "Voitto");
+        }
+        this.mainHopscotch.clearChecked();
     }
 }
