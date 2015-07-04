@@ -1,7 +1,9 @@
 package fi.gosu.miinaharava;
 
 import java.awt.Graphics;
-import java.awt.Polygon;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class Hopscotch {
 
@@ -131,12 +133,8 @@ public class Hopscotch {
         return false;
     }
 
-    public void draw(Graphics g) {
-        Polygon p = new Polygon();
-        for (int i = 0; i < 6; i++) {
-            p.addPoint((int) (this.x + 25 * Math.cos(i * Math.PI / 3)), (int) (this.y + 25 * Math.sin(i * Math.PI / 3)));
-        }
-        g.drawPolygon(p);
+    public void draw(Graphics g) throws IOException {
+        g.drawImage(ImageIO.read(new File("hopscotch-BOOM.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
         this.draw = true;
         for (Hopscotch hopscotch : neighborhood) {
             if (hopscotch != null && !hopscotch.isDraw()) {
