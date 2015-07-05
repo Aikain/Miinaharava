@@ -6,6 +6,10 @@ import java.awt.Graphics;
 import java.awt.Polygon;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -183,22 +187,23 @@ public class Hopscotch extends JComponent {
     public void paint(Graphics g) {
         try {
             if (close) {
-                g.drawImage(ImageIO.read(new File("src/fi/gosu/miinaharava/img/hopscotch-close.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
+                g.drawImage(ImageIO.read(this.getClass().getResourceAsStream("/resources/hopscotch-close.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
             } else {
                 if (mine) {
-                    g.drawImage(ImageIO.read(new File("src/fi/gosu/miinaharava/img/hopscotch-BOOM.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
+                    g.drawImage(ImageIO.read(this.getClass().getResourceAsStream("/resources/hopscotch-BOOM.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
                 } else {
                     int nbc = this.neightborhoodBOOMCount();
                     if (nbc > 0) {
-                        g.drawImage(ImageIO.read(new File("src/fi/gosu/miinaharava/img/hopscotch-number.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
+                        g.drawImage(ImageIO.read(this.getClass().getResourceAsStream("/resources/hopscotch-number.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
                         g.setColor(Color.red);
                         g.drawString(nbc + "", x, y);
                     } else {
-                        g.drawImage(ImageIO.read(new File("src/fi/gosu/miinaharava/img/hopscotch-empty.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
+                        g.drawImage(ImageIO.read(this.getClass().getResourceAsStream("/resources/hopscotch-empty.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
                     }
                 }
             }
         } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
