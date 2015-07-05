@@ -1,7 +1,7 @@
 /build/
 /dist/
-!/dist/*.jar
 /nbproject/private/
-*.xml
-manifest.mf
 /src/fi/gosu/miinaharava/Test.java
+manifest.mf
+*.log
+*.xml

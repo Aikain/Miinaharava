@@ -1,38 +1,31 @@
 package fi.gosu.miinaharava;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Polygon;
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 public class Hopscotch extends JComponent {
 
     private final Hopscotch[] neighborhood;
-    private boolean mine, close, draw, created, checked;
+    private boolean mine, close, draw, created, checked, mark;
     private final int x, y;
     private final Polygon p;
+    public static BufferedImage CombNormal;
+    private final Resources r;
 
-    public Hopscotch(int x, int y) {
-        if (Math.random() > 0.8) {
-            this.mine = true;
-        } else {
-            this.mine = false;
-        }
+    public Hopscotch(int x, int y, Resources r) {
+        this.mine = Math.random() > 0.8;
         this.neighborhood = new Hopscotch[6];
         this.close = true;
         this.draw = false;
         this.created = false;
+        this.mark = false;
         this.x = x;
         this.y = y;
+        this.r = r;
         setBounds(0, 0, 1000, 1000);
         this.p = new Polygon();
         for (int i = 0; i < 6; i++) {
@@ -46,6 +39,14 @@ public class Hopscotch extends JComponent {
 
     public void setMine(boolean mine) {
         this.mine = mine;
+    }
+
+    public boolean isMark() {
+        return mark;
+    }
+
+    public void toggleMark() {
+        this.mark = this.mark ? false : this.close;
     }
 
     public Hopscotch[] getNeighborhood() {
@@ -77,6 +78,7 @@ public class Hopscotch extends JComponent {
     }
 
     public void open() {
+        this.mark = false;
         if (this.mine) {
             JOptionPane.showMessageDialog(this, "Hävisit");
             this.openAll();
@@ -148,7 +150,7 @@ public class Hopscotch extends JComponent {
                     }
                 }
                 if (next == null) {
-                    neighborhood[i] = new Hopscotch((int) (x + 50 * Math.cos((i + 0.5) * Math.PI / 3)), (int) (y + 50 * Math.sin((i + 0.5) * Math.PI / 3)));
+                    neighborhood[i] = new Hopscotch((int) (x + 43 * Math.cos((i + 0.5) * Math.PI / 3)), (int) (y + 43 * Math.sin((i + 0.5) * Math.PI / 3)), this.r);
                 } else {
                     neighborhood[i] = next;
                 }
@@ -185,25 +187,21 @@ public class Hopscotch extends JComponent {
 
     @Override
     public void paint(Graphics g) {
-        try {
-            if (close) {
-                g.drawImage(ImageIO.read(this.getClass().getResourceAsStream("/resources/hopscotch-close.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
+        if (close) {
+            g.drawImage(this.r.getNORMAL(), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, 50, null);
+            if (mark) {
+                g.drawImage(this.r.getFLAG(), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, 50, null);
+            }
+        } else {
+            g.drawImage(this.r.getOpen(0), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, 50, null);
+            if (mine) {
+                g.drawImage(this.r.getBOMB(), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, 50, null);
             } else {
-                if (mine) {
-                    g.drawImage(ImageIO.read(this.getClass().getResourceAsStream("/resources/hopscotch-BOOM.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
-                } else {
-                    int nbc = this.neightborhoodBOOMCount();
-                    if (nbc > 0) {
-                        g.drawImage(ImageIO.read(this.getClass().getResourceAsStream("/resources/hopscotch-number.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
-                        g.setColor(Color.red);
-                        g.drawString(nbc + "", x, y);
-                    } else {
-                        g.drawImage(ImageIO.read(this.getClass().getResourceAsStream("/resources/hopscotch-empty.png")), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, (int) (50 * Math.sqrt(0.75)), null);
-                    }
+                int nbc = this.neightborhoodBOOMCount();
+                if (nbc > 0) {
+                    g.drawImage(this.r.getOpen(nbc), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, 50, null);
                 }
             }
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
         }
     }
 
@@ -217,14 +215,27 @@ public class Hopscotch extends JComponent {
         }
     }
 
-    public void findHopscotch(int x, int y) {
+    public void openHopscotch(int x, int y) {
         this.checked = true;
         if (this.p.contains(x, y)) {
             this.open();
         } else {
             for (Hopscotch hopscotch : neighborhood) {
                 if (hopscotch != null && !hopscotch.isChecked()) {
-                    hopscotch.findHopscotch(x, y);
+                    hopscotch.openHopscotch(x, y);
+                }
+            }
+        }
+    }
+
+    public void markHopscotch(int x, int y) {
+        this.checked = true;
+        if (this.p.contains(x, y)) {
+            this.toggleMark();
+        } else {
+            for (Hopscotch hopscotch : neighborhood) {
+                if (hopscotch != null && !hopscotch.isChecked()) {
+                    hopscotch.markHopscotch(x, y);
                 }
             }
         }

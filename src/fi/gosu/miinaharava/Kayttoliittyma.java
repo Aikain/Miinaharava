@@ -4,7 +4,10 @@ import java.awt.Container;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import java.io.IOException;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class Kayttoliittyma implements Runnable {
@@ -12,13 +15,15 @@ public class Kayttoliittyma implements Runnable {
     private JFrame frame;
     private final int screenWidth, screenHeight, width, height;
     private final Hopscotch mainHopscotch;
+    private final Resources r;
 
-    public Kayttoliittyma(int width, int height, int deep) {
+    public Kayttoliittyma(int width, int height, int deep) throws IOException {
         this.screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
         this.screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
         this.width = width;
         this.height = height;
-        this.mainHopscotch = new Hopscotch(width / 2, height / 2);
+        this.r = new Resources();
+        this.mainHopscotch = new Hopscotch(width / 2, height / 2, this.r);
         for (int i = 0; i < deep; i++) {
             this.mainHopscotch.createNeightborhood(i + 1);
             this.mainHopscotch.clearCreated();
@@ -36,6 +41,7 @@ public class Kayttoliittyma implements Runnable {
         } else {
             frame = new HexagonWindow(width, height, screenWidth / 2, screenHeight / 2);
             frame.addMouseListener(new ClickListener(this));
+            frame.setContentPane(new Background(this.r, width, height));
             createComponents(frame.getContentPane());
             frame.setVisible(true);
         }
