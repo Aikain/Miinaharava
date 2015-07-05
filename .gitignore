@@ -2,3 +2,5 @@
 /dist/
 !/dist/*.jar
 /nbproject/private/
+*.xml
+manifest.mf
