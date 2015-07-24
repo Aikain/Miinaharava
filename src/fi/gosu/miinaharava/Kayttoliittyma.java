@@ -5,9 +5,7 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.io.IOException;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class Kayttoliittyma implements Runnable {
@@ -49,7 +47,6 @@ public class Kayttoliittyma implements Runnable {
 
     private void createComponents(Container container) {
         container.setLayout(null);
-        this.mainHopscotch.addToContainer(container);
     }
 
     public Hopscotch getMainHopscotch() {
