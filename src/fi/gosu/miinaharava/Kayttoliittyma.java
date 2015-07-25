@@ -41,7 +41,6 @@ public class Kayttoliittyma implements Runnable {
             System.exit(0);
         } else {
             frame = new HexagonWindow(width, height, screenWidth / 2, screenHeight / 2);
-            frame.addMouseListener(new ClickListener(this));
             frame.setContentPane(new Background(this.r, width, height));
             createComponents(frame.getContentPane());
             frame.setVisible(true);
@@ -55,6 +54,10 @@ public class Kayttoliittyma implements Runnable {
 
     public void repaint() {
         this.frame.repaint();
+    }
+
+    public JFrame getFrame() {
+        return this.frame;
     }
 
     public void win() {

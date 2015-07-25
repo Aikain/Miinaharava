@@ -6,10 +6,12 @@ public class Game implements View {
 
     private final Kayttoliittyma kl;
     private Hopscotch mainHopscotch;
+    private ClickListener clickListener;
     private boolean gameHasEnded = true;
 
     public Game(Kayttoliittyma kl) {
         this.kl = kl;
+        this.clickListener = new ClickListener(this);
         startGame();
     }
 
@@ -43,6 +45,10 @@ public class Game implements View {
 
     }
 
+    public ClickListener getClickListener() {
+        return clickListener;
+    }
+
     public Hopscotch getMainHopscotch() {
         return mainHopscotch;
     }
@@ -52,5 +58,9 @@ public class Game implements View {
             kl.win();
         }
         this.mainHopscotch.clearChecked();
+    }
+
+    public void repaint() {
+        kl.repaint();
     }
 }
