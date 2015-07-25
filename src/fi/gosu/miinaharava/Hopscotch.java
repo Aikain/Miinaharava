@@ -8,12 +8,13 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 public class Hopscotch extends JComponent {
+    
+    public static BufferedImage CombNormal;
 
     private final Hopscotch[] neighborhood;
     private boolean mine, close, draw, created, checked, mark;
     private final int x, y;
     private final Polygon p;
-    public static BufferedImage CombNormal;
     private final Resources r;
 
     public Hopscotch(int x, int y, Resources r) {
@@ -124,7 +125,7 @@ public class Hopscotch extends JComponent {
         this.created = false;
         for (Hopscotch hopscotch : neighborhood) {
             if (hopscotch != null && hopscotch.isCreated()) {
-                hopscotch.clearDraw();
+                hopscotch.clearCreated();
             }
         }
     }
