@@ -8,7 +8,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 public class Hopscotch extends JComponent {
-    
+
     public static BufferedImage CombNormal;
 
     private final Hopscotch[] neighborhood;
@@ -32,13 +32,14 @@ public class Hopscotch extends JComponent {
             p.addPoint((int) (x + 25 * Math.cos(i * Math.PI / 3)), (int) (y + 25 * Math.sin(i * Math.PI / 3)));
         }
     }
-    
-    public void generateMinePositions(){
-        this.mine = Math.random() > 0.8;
+
+    public void generateMinePositions(double probability) {
+        this.mine = Math.random() < probability;
+        probability = 0.2;
         this.created = true;
         for (Hopscotch hopscotch : neighborhood) {
             if (hopscotch != null && !hopscotch.isCreated()) {
-                hopscotch.generateMinePositions();
+                hopscotch.generateMinePositions(probability);
             }
         }
     }
@@ -225,16 +226,20 @@ public class Hopscotch extends JComponent {
         }
     }
 
-    public void openHopscotch(int x, int y) {
+    public Hopscotch getHopscotch(int x, int y) {
         this.checked = true;
         if (this.p.contains(x, y)) {
-            this.open();
+            return this;
         } else {
             for (Hopscotch hopscotch : neighborhood) {
                 if (hopscotch != null && !hopscotch.isChecked()) {
-                    hopscotch.openHopscotch(x, y);
+                    Hopscotch h = hopscotch.getHopscotch(x, y);
+                    if (h != null){
+                        return h;
+                    }
                 }
             }
+            return null;
         }
     }
 

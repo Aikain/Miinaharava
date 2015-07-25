@@ -15,14 +15,9 @@ public class ClickListener implements MouseListener, MouseMotionListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
-            this.game.getMainHopscotch().openHopscotch(e.getX(), e.getY());
-            this.game.repaint();
-            this.game.getMainHopscotch().clearChecked();
-            this.game.checkWin();
+            this.game.leftMouseClicked(e.getX(), e.getY());
         } else if (e.getButton() == MouseEvent.BUTTON3) {
-            this.game.getMainHopscotch().markHopscotch(e.getX(), e.getY());
-            this.game.repaint();
-            this.game.getMainHopscotch().clearChecked();
+            this.game.rightMouseClicked(e.getX(), e.getY());
         }
     }
 
