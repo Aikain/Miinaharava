@@ -6,3 +6,5 @@ manifest.mf
 *.log
 *.xml
 *.DS_Store
+nbproject/private/private.properties
+

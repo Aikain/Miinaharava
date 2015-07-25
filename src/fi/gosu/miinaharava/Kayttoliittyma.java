@@ -5,27 +5,26 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class Kayttoliittyma implements Runnable {
 
     private JFrame frame;
-    private final int screenWidth, screenHeight, width, height;
-    private final Hopscotch mainHopscotch;
-    private final Resources r;
+    private final int screenWidth, screenHeight, width, height, deep;
+    private Resources r;
+    private Game game;
 
     public Kayttoliittyma(int width, int height, int deep) throws IOException {
         this.screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
         this.screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
         this.width = width;
         this.height = height;
+        this.deep = deep;
         this.r = new Resources();
-        this.mainHopscotch = new Hopscotch(width / 2, height / 2, this.r);
-        for (int i = 0; i < deep; i++) {
-            this.mainHopscotch.createNeightborhood(i + 1);
-            this.mainHopscotch.clearCreated();
-        }
+        this.game = new Game(this);
     }
 
     @Override
@@ -47,20 +46,38 @@ public class Kayttoliittyma implements Runnable {
 
     private void createComponents(Container container) {
         container.setLayout(null);
-    }
-
-    public Hopscotch getMainHopscotch() {
-        return mainHopscotch;
+        game.addComponentsToContainer(container);
     }
 
     public void repaint() {
         this.frame.repaint();
     }
 
-    public void checkWin() {
-        if (this.mainHopscotch.checkWin()) {
-            JOptionPane.showMessageDialog(frame, "Voitto");
-        }
-        this.mainHopscotch.clearChecked();
+    public void win() {
+        JOptionPane.showMessageDialog(frame, "Voitto");
+    }
+    
+    public int getWidth(){
+        return this.width;
+    }
+    
+    public int getHeight(){
+        return this.height;
+    }
+    
+    public int getDeep(){
+        return this.deep;
+    }
+    
+    public Resources getResources(){
+        return this.r;
+    }
+    
+    public Hopscotch getMainHopscotch(){
+        return this.game.getMainHopscotch();
+    }
+    
+    public void checkWin(){
+        this.game.checkWin();
     }
 }
