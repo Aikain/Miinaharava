@@ -18,7 +18,7 @@ public class Game {
             this.mainHopscotch.clearCreated();
         }
     }
-
+    
     public void addComponentsToContainer(Container container) {
         this.mainHopscotch.addToContainer(container);
     }

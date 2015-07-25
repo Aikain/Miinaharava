@@ -18,7 +18,6 @@ public class Hopscotch extends JComponent {
     private final Resources r;
 
     public Hopscotch(int x, int y, Resources r) {
-        this.mine = Math.random() > 0.8;
         this.neighborhood = new Hopscotch[6];
         this.close = true;
         this.draw = false;
@@ -31,6 +30,15 @@ public class Hopscotch extends JComponent {
         this.p = new Polygon();
         for (int i = 0; i < 6; i++) {
             p.addPoint((int) (x + 25 * Math.cos(i * Math.PI / 3)), (int) (y + 25 * Math.sin(i * Math.PI / 3)));
+        }
+    }
+    
+    public void generateMinePositions(){
+        this.mine = Math.random() > 0.8;
+        for (Hopscotch hopscotch : neighborhood) {
+            if (hopscotch != null && hopscotch.isClose()) {
+                hopscotch.generateMinePositions();
+            }
         }
     }
 
