@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 
 public class Hopscotch extends JComponent {
 

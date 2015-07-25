@@ -5,28 +5,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
-public class Menu implements View, ActionListener {
+public final class Menu implements View, ActionListener {
 
     private final Kayttoliittyma kl;
     private final JButton startGame, highScore, settings, help, exit;
 
     public Menu(Kayttoliittyma kl, int width, int height) {
         this.kl = kl;
-        this.startGame = new JButton("Uusi peli");
-        this.startGame.setBounds(width / 2 - 75, (int) (height * 0.3), 150, (int) (height * 0.07));
-        this.startGame.addActionListener(this);
-        this.highScore = new JButton("Huippupisteet");
-        this.highScore.setBounds(width / 2 - 75, (int) (height * 0.4), 150, (int) (height * 0.07));
-        this.highScore.addActionListener(this);
-        this.settings = new JButton("Asetukset");
-        this.settings.setBounds(width / 2 - 75, (int) (height * 0.5), 150, (int) (height * 0.07));
-        this.settings.addActionListener(this);
-        this.help = new JButton("Ohjeet");
-        this.help.setBounds(width / 2 - 75, (int) (height * 0.6), 150, (int) (height * 0.07));
-        this.help.addActionListener(this);
-        this.exit = new JButton("Poistu");
-        this.exit.setBounds(width / 2 - 75, (int) (height * 0.7), 150, (int) (height * 0.07));
-        this.exit.addActionListener(this);
+        this.startGame = createButton("Uusi peli", width / 2 - 75, (int) (height * 0.3), 150, (int) (height * 0.07));
+        this.highScore = createButton("Huippupisteet", width / 2 - 75, (int) (height * 0.4), 150, (int) (height * 0.07));
+        this.settings = createButton("Asetukset", width / 2 - 75, (int) (height * 0.5), 150, (int) (height * 0.07));
+        this.help = createButton("Ohjeet", width / 2 - 75, (int) (height * 0.6), 150, (int) (height * 0.07));
+        this.exit = createButton("Poistu", width / 2 - 75, (int) (height * 0.7), 150, (int) (height * 0.07));
+    }
+
+    public JButton createButton(String name, int x, int y, int width, int height) {
+        JButton button = new JButton(name);
+        button.setBounds(x, y, width, height);
+        button.addActionListener(this);
+        return button;
     }
 
     @Override

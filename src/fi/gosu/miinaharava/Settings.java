@@ -1,19 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.gosu.miinaharava;
 
 import java.awt.Container;
 
-/**
- *
- * @author Ville
- */
 public class Settings implements View {
 
-    public Settings(Kayttoliittyma aThis) {
+    private final Kayttoliittyma kl;
+
+    public Settings(Kayttoliittyma kl) {
+        this.kl = kl;
     }
 
     @Override
@@ -30,5 +24,5 @@ public class Settings implements View {
     public void onInactive() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }
