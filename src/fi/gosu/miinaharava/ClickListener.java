@@ -6,23 +6,23 @@ import java.awt.event.MouseMotionListener;
 
 public class ClickListener implements MouseListener, MouseMotionListener {
 
-    private final Kayttoliittyma kl;
+    private final Game game;
 
-    public ClickListener(Kayttoliittyma kl) {
-        this.kl = kl;
+    public ClickListener(Game game) {
+        this.game = game;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
-            this.kl.getMainHopscotch().openHopscotch(e.getX(), e.getY());
-            this.kl.repaint();
-            this.kl.getMainHopscotch().clearChecked();
-            this.kl.checkWin();
+            this.game.getMainHopscotch().openHopscotch(e.getX(), e.getY());
+            this.game.repaint();
+            this.game.getMainHopscotch().clearChecked();
+            this.game.checkWin();
         } else if (e.getButton() == MouseEvent.BUTTON3) {
-            this.kl.getMainHopscotch().markHopscotch(e.getX(), e.getY());
-            this.kl.repaint();
-            this.kl.getMainHopscotch().clearChecked();
+            this.game.getMainHopscotch().markHopscotch(e.getX(), e.getY());
+            this.game.repaint();
+            this.game.getMainHopscotch().clearChecked();
         }
     }
 

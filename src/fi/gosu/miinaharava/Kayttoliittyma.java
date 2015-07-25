@@ -13,7 +13,9 @@ public class Kayttoliittyma implements Runnable {
     private JFrame frame;
     private final int screenWidth, screenHeight, width, height, deep;
     private final Resources r;
-    private final View currentView;
+    private View currentView;
+    private final Game game;
+    private final Menu menu;
 
     public Kayttoliittyma(int width, int height, int deep) throws IOException {
         this.screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -22,7 +24,9 @@ public class Kayttoliittyma implements Runnable {
         this.height = height;
         this.deep = deep;
         this.r = new Resources();
-        this.currentView = new Game(this);
+        this.game = new Game(this);
+        this.menu = new Menu(this.width, this.height);
+        this.currentView = this.game;
     }
 
     @Override
@@ -35,7 +39,7 @@ public class Kayttoliittyma implements Runnable {
             System.exit(0);
         } else {
             frame = new HexagonWindow(width, height, screenWidth / 2, screenHeight / 2);
-            frame.addMouseListener(new ClickListener(this));
+            frame.addMouseListener(this.game.getClickListener());
             frame.setContentPane(new Background(this.r, width, height));
             createComponents(frame.getContentPane());
             frame.setVisible(true);
