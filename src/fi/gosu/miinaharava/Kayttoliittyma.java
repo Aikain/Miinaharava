@@ -85,6 +85,7 @@ public class Kayttoliittyma implements Runnable {
         this.currentView = newView;
         this.currentView.addToContainer(this.frame.getContentPane());
         this.currentView.onResume();
+        this.repaint();
     }
 
     public void startGame() {
