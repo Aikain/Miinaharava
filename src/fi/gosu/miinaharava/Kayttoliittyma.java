@@ -14,8 +14,7 @@ public class Kayttoliittyma implements Runnable {
     private final int screenWidth, screenHeight, width, height, deep;
     private final Resources r;
     private View currentView;
-    private final Game game;
-    private final Menu menu;
+    private final View menu, game, highScore, settings, help;
 
     public Kayttoliittyma(int width, int height, int deep) throws IOException {
         this.screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -24,9 +23,12 @@ public class Kayttoliittyma implements Runnable {
         this.height = height;
         this.deep = deep;
         this.r = new Resources();
+        this.menu = new Menu(this, width, height);
         this.game = new Game(this);
-        this.menu = new Menu(this.width, this.height);
-        this.currentView = this.game;
+        this.highScore = new HighScore(this);
+        this.settings = new Settings(this);
+        this.help = new Help(this);
+        this.currentView = this.menu;
     }
 
     @Override
@@ -39,7 +41,6 @@ public class Kayttoliittyma implements Runnable {
             System.exit(0);
         } else {
             frame = new HexagonWindow(width, height, screenWidth / 2, screenHeight / 2);
-            frame.addMouseListener(this.game.getClickListener());
             frame.setContentPane(new Background(this.r, width, height));
             createComponents(frame.getContentPane());
             frame.setVisible(true);
@@ -53,6 +54,10 @@ public class Kayttoliittyma implements Runnable {
 
     public void repaint() {
         this.frame.repaint();
+    }
+
+    public JFrame getFrame() {
+        return this.frame;
     }
 
     public void win() {
@@ -73,5 +78,33 @@ public class Kayttoliittyma implements Runnable {
 
     public Resources getResources() {
         return this.r;
+    }
+
+    private void changeView(View newView) {
+        this.currentView.onInactive();
+        this.currentView = newView;
+        this.currentView.addToContainer(this.frame.getContentPane());
+        this.currentView.onResume();
+        this.repaint();
+    }
+
+    public void startGame() {
+        changeView(this.game);
+    }
+
+    public void highScore() {
+        changeView(this.highScore);
+    }
+
+    public void settings() {
+        changeView(this.settings);
+    }
+
+    public void help() {
+        changeView(this.help);
+    }
+
+    public void exit() {
+        System.exit(-1);
     }
 }
