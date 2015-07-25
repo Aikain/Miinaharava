@@ -1,5 +1,6 @@
-package fi.gosu.miinaharava;
+package fi.gosu.miinaharava.view;
 
+import fi.gosu.miinaharava.ui.Kayttoliittyma;
 import java.awt.Container;
 
 public class HighScore implements View {

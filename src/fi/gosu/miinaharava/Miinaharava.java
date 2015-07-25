@@ -1,5 +1,6 @@
 package fi.gosu.miinaharava;
 
+import fi.gosu.miinaharava.ui.Kayttoliittyma;
 import java.io.IOException;
 import javax.swing.SwingUtilities;
 

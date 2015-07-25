@@ -1,4 +1,4 @@
-package fi.gosu.miinaharava;
+package fi.gosu.miinaharava.ui;
 
 import java.awt.HeadlessException;
 import java.awt.Polygon;

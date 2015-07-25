@@ -1,4 +1,4 @@
-package fi.gosu.miinaharava;
+package fi.gosu.miinaharava.view;
 
 import java.awt.Container;
 

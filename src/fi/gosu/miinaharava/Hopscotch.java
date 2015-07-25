@@ -1,5 +1,6 @@
 package fi.gosu.miinaharava;
 
+import fi.gosu.miinaharava.tool.Resources;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Polygon;

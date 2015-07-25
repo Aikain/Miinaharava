@@ -1,5 +1,7 @@
-package fi.gosu.miinaharava;
+package fi.gosu.miinaharava.ui;
 
+import fi.gosu.miinaharava.tool.*;
+import fi.gosu.miinaharava.view.*;
 import java.awt.Container;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;

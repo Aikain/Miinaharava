@@ -1,12 +1,13 @@
-package fi.gosu.miinaharava;
+package fi.gosu.miinaharava.view;
 
+import fi.gosu.miinaharava.ui.Kayttoliittyma;
 import java.awt.Container;
 
-public class Help implements View {
-    
+public class Settings implements View {
+
     private final Kayttoliittyma kl;
 
-    public Help(Kayttoliittyma kl) {
+    public Settings(Kayttoliittyma kl) {
         this.kl = kl;
     }
 
@@ -24,5 +25,5 @@ public class Help implements View {
     public void onInactive() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

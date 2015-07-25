@@ -1,5 +1,6 @@
-package fi.gosu.miinaharava;
+package fi.gosu.miinaharava.ui;
 
+import fi.gosu.miinaharava.view.Game;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;

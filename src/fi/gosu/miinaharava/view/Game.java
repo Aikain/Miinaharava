@@ -1,5 +1,9 @@
-package fi.gosu.miinaharava;
+package fi.gosu.miinaharava.view;
 
+import fi.gosu.miinaharava.ui.ClickListener;
+import fi.gosu.miinaharava.Hopscotch;
+import fi.gosu.miinaharava.ui.Kayttoliittyma;
+import fi.gosu.miinaharava.tool.Resources;
 import java.awt.Container;
 import javax.swing.JOptionPane;
 

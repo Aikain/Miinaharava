@@ -1,5 +1,6 @@
-package fi.gosu.miinaharava;
+package fi.gosu.miinaharava.ui;
 
+import fi.gosu.miinaharava.tool.Resources;
 import java.awt.Graphics;
 import javax.swing.JComponent;
 

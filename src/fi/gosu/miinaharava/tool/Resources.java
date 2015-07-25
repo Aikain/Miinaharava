@@ -1,4 +1,4 @@
-package fi.gosu.miinaharava;
+package fi.gosu.miinaharava.tool;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

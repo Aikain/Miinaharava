@@ -1,5 +1,6 @@
-package fi.gosu.miinaharava;
+package fi.gosu.miinaharava.view;
 
+import fi.gosu.miinaharava.ui.Kayttoliittyma;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
