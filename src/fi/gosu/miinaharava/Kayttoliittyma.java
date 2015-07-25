@@ -5,8 +5,6 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -14,8 +12,8 @@ public class Kayttoliittyma implements Runnable {
 
     private JFrame frame;
     private final int screenWidth, screenHeight, width, height, deep;
-    private Resources r;
-    private Game game;
+    private final Resources r;
+    private final Game game;
 
     public Kayttoliittyma(int width, int height, int deep) throws IOException {
         this.screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -56,28 +54,28 @@ public class Kayttoliittyma implements Runnable {
     public void win() {
         JOptionPane.showMessageDialog(frame, "Voitto");
     }
-    
-    public int getWidth(){
+
+    public int getWidth() {
         return this.width;
     }
-    
-    public int getHeight(){
+
+    public int getHeight() {
         return this.height;
     }
-    
-    public int getDeep(){
+
+    public int getDeep() {
         return this.deep;
     }
-    
-    public Resources getResources(){
+
+    public Resources getResources() {
         return this.r;
     }
-    
-    public Hopscotch getMainHopscotch(){
+
+    public Hopscotch getMainHopscotch() {
         return this.game.getMainHopscotch();
     }
-    
-    public void checkWin(){
+
+    public void checkWin() {
         this.game.checkWin();
     }
 }
