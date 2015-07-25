@@ -1,8 +1,6 @@
 package fi.gosu.miinaharava;
 
 import java.awt.Container;
-import java.io.IOException;
-import javax.swing.JOptionPane;
 
 public class Game {
     private final Kayttoliittyma kl;
