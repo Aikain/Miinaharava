@@ -13,7 +13,8 @@ public class Kayttoliittyma implements Runnable {
     private JFrame frame;
     private final int screenWidth, screenHeight, width, height, deep;
     private final Resources r;
-    private final View currentView;
+    private View currentView;
+    private final View menu, game, highScore, settings, help;
 
     public Kayttoliittyma(int width, int height, int deep) throws IOException {
         this.screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -22,7 +23,12 @@ public class Kayttoliittyma implements Runnable {
         this.height = height;
         this.deep = deep;
         this.r = new Resources();
-        this.currentView = new Game(this);
+        this.menu = new Menu(this, width, height);
+        this.game = new Game(this);
+        this.highScore = new HighScore(this);
+        this.settings = new Settings(this);
+        this.help = new Help(this);
+        this.currentView = this.menu;
     }
 
     @Override
@@ -69,5 +75,32 @@ public class Kayttoliittyma implements Runnable {
 
     public Resources getResources() {
         return this.r;
+    }
+
+    private void changeView(View newView) {
+        this.currentView.onInactive();
+        this.currentView = newView;
+        this.currentView.addToContainer(this.frame.getContentPane());
+        this.currentView.onResume();
+    }
+
+    public void startGame() {
+        changeView(this.game);
+    }
+
+    public void highScore() {
+        changeView(this.highScore);
+    }
+
+    public void settings() {
+        changeView(this.settings);
+    }
+
+    public void help() {
+        changeView(this.help);
+    }
+
+    public void exit() {
+        System.exit(-1);
     }
 }
