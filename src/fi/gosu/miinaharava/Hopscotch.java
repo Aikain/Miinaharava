@@ -88,11 +88,10 @@ public class Hopscotch extends JComponent {
         return !close;
     }
 
-    public void open() {
+    public boolean open() {
         this.mark = false;
         if (this.mine) {
-            JOptionPane.showMessageDialog(this, "Hävisit");
-            this.openAll();
+            return false;
         } else {
             this.close = false;
             if (neightborhoodBOOMCount() == 0) {
@@ -102,13 +101,15 @@ public class Hopscotch extends JComponent {
                     }
                 }
             }
+            return true;
         }
     }
 
     public void openAll() {
         this.close = false;
+        this.created = true;
         for (Hopscotch hopscotch : neighborhood) {
-            if (hopscotch != null && hopscotch.isClose()) {
+            if (hopscotch != null && !hopscotch.isCreated()) {
                 hopscotch.openAll();
             }
         }

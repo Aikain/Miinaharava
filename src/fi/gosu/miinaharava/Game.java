@@ -1,6 +1,7 @@
 package fi.gosu.miinaharava;
 
 import java.awt.Container;
+import javax.swing.JOptionPane;
 
 public class Game implements View {
 
@@ -28,6 +29,12 @@ public class Game implements View {
         }
     }
 
+    private void forceOpenAllHopscotches() {
+        this.mainHopscotch.clearCreated();
+        this.mainHopscotch.openAll();
+        repaint();
+    }
+
     public void addToContainer(Container container) {
         container.removeAll();
         this.mainHopscotch.addToContainer(container);
@@ -37,10 +44,11 @@ public class Game implements View {
         if (this.gameHasEnded) {
             startGame();
         }
+        this.kl.getFrame().addMouseListener(this.clickListener);
     }
 
     public void onInactive() {
-
+        this.kl.getFrame().removeMouseListener(clickListener);
     }
 
     public ClickListener getClickListener() {
@@ -52,15 +60,24 @@ public class Game implements View {
         getMainHopscotch().clearChecked();
         if (clicked == null) {
             return;
+        } else if (gameHasEnded) {
+            noteAboutGameEnded();
         } else if (!clicked.isCreated()) {
             clicked.generateMinePositions(0);
         }
-        clicked.open();
+        if (!clicked.open()) {
+            lose();
+            return;
+        }
         repaint();
         checkWin();
     }
 
     public void rightMouseClicked(int xCoord, int yCoord) {
+        if (gameHasEnded) {
+            noteAboutGameEnded();
+            return;
+        }
         getMainHopscotch().markHopscotch(xCoord, yCoord);
         repaint();
         getMainHopscotch().clearChecked();
@@ -72,12 +89,28 @@ public class Game implements View {
 
     public void checkWin() {
         if (this.mainHopscotch.checkWin()) {
-            kl.win();
+            win();
         }
         this.mainHopscotch.clearChecked();
     }
 
     public void repaint() {
         kl.repaint();
+    }
+
+    private void win() {
+        gameHasEnded = true;
+        JOptionPane.showMessageDialog(kl.getFrame(), "Voitto");
+    }
+
+    private void lose() {
+        gameHasEnded = true;
+        mainHopscotch.clearCreated();
+        forceOpenAllHopscotches();
+        JOptionPane.showMessageDialog(kl.getFrame(), "Häviö");
+    }
+    
+    private void noteAboutGameEnded() {
+        JOptionPane.showMessageDialog(kl.getFrame(), "Peli loppui jo.");
     }
 }

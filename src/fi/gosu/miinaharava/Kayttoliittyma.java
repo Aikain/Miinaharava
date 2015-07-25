@@ -60,10 +60,6 @@ public class Kayttoliittyma implements Runnable {
         return this.frame;
     }
 
-    public void win() {
-        JOptionPane.showMessageDialog(frame, "Voitto");
-    }
-
     public int getWidth() {
         return this.width;
     }
