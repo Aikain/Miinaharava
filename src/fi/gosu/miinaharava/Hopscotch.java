@@ -35,8 +35,9 @@ public class Hopscotch extends JComponent {
     
     public void generateMinePositions(){
         this.mine = Math.random() > 0.8;
+        this.created = true;
         for (Hopscotch hopscotch : neighborhood) {
-            if (hopscotch != null && hopscotch.isClose()) {
+            if (hopscotch != null && !hopscotch.isCreated()) {
                 hopscotch.generateMinePositions();
             }
         }
