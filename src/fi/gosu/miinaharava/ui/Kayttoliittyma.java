@@ -23,7 +23,7 @@ public class Kayttoliittyma implements Runnable {
         this.width = width;
         this.height = height;
         this.deep = deep;
-        this.r = new Resources();
+        this.r = new Resources("eka");
         this.menu = new Menu(this, width, height);
         this.game = new Game(this);
         this.highScore = new HighScore(this);
