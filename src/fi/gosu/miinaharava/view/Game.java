@@ -16,16 +16,30 @@ public class Game implements View {
     private Hopscotch mainHopscotch;
     private ClickListener clickListener;
     private boolean gameHasEnded;
-    private JButton hb;
+    private JButton returnToMenuButton, newGameButton;
 
     public Game(Kayttoliittyma kl) {
         this.kl = kl;
         this.clickListener = new ClickListener(this);
-        this.hb = new HexagonButton("OK");
-        this.hb.setBounds(200, 150, 150, 150);
+        createButtons();
         startGame();
     }
 
+    private void createButtons(){
+        int width = 100;
+        int height = 100;
+        
+        int returnToMenuY = 100;
+        int returnToMenuX = 300;
+        int newGameY = returnToMenuY;
+        int newGameX = 200;
+        
+        this.returnToMenuButton = new HexagonButton("Lopeta");
+        this.returnToMenuButton.setBounds(returnToMenuX, returnToMenuY, width, height);
+        
+        this.newGameButton = new HexagonButton("Uusi peli");
+        this.newGameButton.setBounds(newGameX, newGameY, width, height);
+    }
     private void startGame() {
         this.gameHasEnded = false;
         int width = kl.getWidth();
@@ -47,7 +61,8 @@ public class Game implements View {
 
     public void addToContainer(Container container) {
         container.removeAll();
-        container.add(this.hb);
+        container.add(this.returnToMenuButton);
+        container.add(this.newGameButton);
         this.mainHopscotch.addToContainer(container);
     }
 

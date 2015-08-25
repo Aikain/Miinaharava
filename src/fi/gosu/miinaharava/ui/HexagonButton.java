@@ -7,16 +7,13 @@ package fi.gosu.miinaharava.ui;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
-import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
@@ -25,8 +22,6 @@ import java.awt.Stroke;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.Area;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -66,16 +61,16 @@ public class HexagonButton extends JButton
 
         m_nStringWidthMax = fm.stringWidth(this.getText());
         m_nStringWidthMax
-                = Math.max(m_nStringWidthMax, fm.stringWidth(this.getText()));
+            = Math.max(m_nStringWidthMax, fm.stringWidth(this.getText()));
 
         //WARNING: use getMargin. it refers to dist btwn text and border.
         //also use getInsets. it refers to the width of the border
         int nWidth = Math.max(m_nMinWidth,
-                m_nStringWidthMax
-                + this.getMargin().left
-                + this.getInsets().left
-                + this.getMargin().right
-                + this.getInsets().right);
+            m_nStringWidthMax
+            + this.getMargin().left
+            + this.getInsets().left
+            + this.getMargin().right
+            + this.getInsets().right);
 
         this.setPreferredSize(new Dimension(nWidth, DEFAULT_HEIGHT));
 
@@ -88,10 +83,10 @@ public class HexagonButton extends JButton
         super.setText(strText);
 
         int nWidth = Math.max(
-                m_nMinWidth,
-                m_nStringWidthMax
-                + this.getInsets().left
-                + this.getInsets().right);
+            m_nMinWidth,
+            m_nStringWidthMax
+            + this.getInsets().left
+            + this.getInsets().right);
         int nHeight = Math.max(0, this.getPreferredSize().height);
         this.setPreferredSize(new Dimension(nWidth, nHeight));
 
@@ -110,8 +105,8 @@ public class HexagonButton extends JButton
     private void updateShape() {
         Polygon hexagon = new Polygon();
         Rectangle bounds = getBounds();
-        int x = bounds.x / 2;
-        int y = bounds.y / 2;
+        int x = bounds.width / 2;
+        int y = bounds.height / 2;
         int radius = bounds.width / 2;
         for (int i = 0; i < 6; i++) {
             hexagon.addPoint((int) (x + radius * Math.cos(i * Math.PI / 3)), (int) (y + radius * Math.sin(i * Math.PI / 3)));
@@ -124,8 +119,8 @@ public class HexagonButton extends JButton
         Graphics2D g2 = (Graphics2D) g;
 
         RenderingHints hints = new RenderingHints(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON
+            RenderingHints.KEY_ANTIALIASING,
+            RenderingHints.VALUE_ANTIALIAS_ON
         );
         g2.setRenderingHints(hints);
 
@@ -149,15 +144,15 @@ public class HexagonButton extends JButton
         Graphics2D g2 = (Graphics2D) g;
 
         RenderingHints hints = new RenderingHints(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON
+            RenderingHints.KEY_ANTIALIASING,
+            RenderingHints.VALUE_ANTIALIAS_ON
         );
         g2.setRenderingHints(hints);
 
         Stroke strokeOld = g2.getStroke();
         g2.setStroke(
-                new BasicStroke(
-                        BORDER_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+            new BasicStroke(
+                BORDER_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
         );
 
         if (this.hasFocus()) {
