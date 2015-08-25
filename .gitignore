@@ -7,4 +7,4 @@ manifest.mf
 *.xml
 *.DS_Store
 nbproject/private/private.properties
-
+nbproject/genfiles.properties

@@ -11,6 +11,7 @@ public class Resources {
     private final BufferedImage[] OPENS;
     private final BufferedImage FLAG;
     private final BufferedImage BACKROUND;
+    private final BufferedImage GAMEBUTTON;
 
     public Resources(String kansio) throws IOException {
         this.NORMAL = ImageIO.read(this.getClass().getResourceAsStream("/resources/" + kansio + "/Comb_Normal.png"));
@@ -21,6 +22,7 @@ public class Resources {
         }
         this.FLAG = ImageIO.read(this.getClass().getResourceAsStream("/resources/" + kansio + "/Comb_Flag.png"));
         this.BACKROUND = ImageIO.read(this.getClass().getResourceAsStream("/resources/" + kansio + "/Comb_Background.png"));
+        this.GAMEBUTTON = ImageIO.read(this.getClass().getResourceAsStream("/resources/" + kansio + "/Comb_Background.png"));
     }
 
     public BufferedImage getNORMAL() {
@@ -43,4 +45,7 @@ public class Resources {
         return BACKROUND;
     }
 
+    public BufferedImage getGAMEBUTTONIMAGE() {
+        return GAMEBUTTON;
+    }
 }

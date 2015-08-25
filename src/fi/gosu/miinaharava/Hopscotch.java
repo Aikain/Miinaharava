@@ -1,6 +1,7 @@
 package fi.gosu.miinaharava;
 
 import fi.gosu.miinaharava.tool.Resources;
+import fi.gosu.miinaharava.ui.Kayttoliittyma;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Polygon;
@@ -13,11 +14,12 @@ public class Hopscotch extends JComponent {
 
     private final Hopscotch[] neighborhood;
     private boolean mine, close, draw, created, checked, mark;
-    private final int x, y;
+    private final int x, y, radius;
     private final Polygon p;
     private final Resources r;
+    private final Kayttoliittyma kl;
 
-    public Hopscotch(int x, int y, Resources r) {
+    public Hopscotch(int x, int y, Resources r, Kayttoliittyma kl) {
         this.neighborhood = new Hopscotch[6];
         this.close = true;
         this.draw = false;
@@ -26,10 +28,13 @@ public class Hopscotch extends JComponent {
         this.x = x;
         this.y = y;
         this.r = r;
-        setBounds(0, 0, 1000, 1000);
+        this.kl = kl;
+        setBounds(0, 0, kl.getWidth(), kl.getHeight());
         this.p = new Polygon();
+        this.radius = (kl.getWidth() < kl.getHeight() ? kl.getWidth() : kl.getHeight()) / ( 4 * this.kl.getDeep() + 6);        
+        
         for (int i = 0; i < 6; i++) {
-            p.addPoint((int) (x + 25 * Math.cos(i * Math.PI / 3)), (int) (y + 25 * Math.sin(i * Math.PI / 3)));
+            p.addPoint((int) (x + radius * Math.cos(i * Math.PI / 3)), (int) (y + radius * Math.sin(i * Math.PI / 3)));
         }
     }
 
@@ -162,7 +167,7 @@ public class Hopscotch extends JComponent {
                     }
                 }
                 if (next == null) {
-                    neighborhood[i] = new Hopscotch((int) (x + 43 * Math.cos((i + 0.5) * Math.PI / 3)), (int) (y + 43 * Math.sin((i + 0.5) * Math.PI / 3)), this.r);
+                    neighborhood[i] = new Hopscotch((int) (x + 1.7*radius * Math.cos((i + 0.5) * Math.PI / 3)), (int) (y + 1.7*radius * Math.sin((i + 0.5) * Math.PI / 3)), this.r, kl);
                 } else {
                     neighborhood[i] = next;
                 }
@@ -200,18 +205,18 @@ public class Hopscotch extends JComponent {
     @Override
     public void paint(Graphics g) {
         if (close) {
-            g.drawImage(this.r.getNORMAL(), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, 50, null);
+            g.drawImage(this.r.getNORMAL(), x - radius, y - (int) (2*radius * Math.sqrt(0.75) / 2), 2*radius, 2*radius, null);
             if (mark) {
-                g.drawImage(this.r.getFLAG(), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, 50, null);
+                g.drawImage(this.r.getFLAG(), x - radius, y - (int) (2*radius * Math.sqrt(0.75) / 2), 2*radius, 2*radius, null);
             }
         } else {
-            g.drawImage(this.r.getOpen(0), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, 50, null);
+            g.drawImage(this.r.getOpen(0), x - radius, y - (int) (2*radius * Math.sqrt(0.75) / 2), 2*radius, 2*radius, null);
             if (mine) {
-                g.drawImage(this.r.getBOMB(), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, 50, null);
+                g.drawImage(this.r.getBOMB(), x - radius, y - (int) (2*radius * Math.sqrt(0.75) / 2), 2*radius, 2*radius, null);
             } else {
                 int nbc = this.neightborhoodBOOMCount();
                 if (nbc > 0) {
-                    g.drawImage(this.r.getOpen(nbc), x - 25, y - (int) (50 * Math.sqrt(0.75) / 2), 50, 50, null);
+                    g.drawImage(this.r.getOpen(nbc), x - radius, y - (int) (2*radius * Math.sqrt(0.75) / 2), 2*radius, 2*radius, null);
                 }
             }
         }
