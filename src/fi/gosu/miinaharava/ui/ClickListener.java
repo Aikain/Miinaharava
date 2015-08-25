@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class ClickListener implements MouseListener, MouseMotionListener {
+public class ClickListener implements MouseListener {
 
     private final Game game;
 
@@ -38,11 +38,4 @@ public class ClickListener implements MouseListener, MouseMotionListener {
     public void mouseExited(MouseEvent e) {
     }
 
-    @Override
-    public void mouseDragged(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-    }
 }
