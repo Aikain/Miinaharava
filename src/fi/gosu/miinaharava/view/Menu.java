@@ -2,8 +2,11 @@ package fi.gosu.miinaharava.view;
 
 import fi.gosu.miinaharava.ui.Kayttoliittyma;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javafx.scene.paint.Color;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public final class Menu implements View, ActionListener {
@@ -13,15 +16,18 @@ public final class Menu implements View, ActionListener {
 
     public Menu(Kayttoliittyma kl, int width, int height) {
         this.kl = kl;
-        this.startGame = createButton("Uusi peli", width / 2 - 75, (int) (height * 0.3), 150, (int) (height * 0.07));
-        this.highScore = createButton("Huippupisteet", width / 2 - 75, (int) (height * 0.4), 150, (int) (height * 0.07));
-        this.settings = createButton("Asetukset", width / 2 - 75, (int) (height * 0.5), 150, (int) (height * 0.07));
-        this.help = createButton("Ohjeet", width / 2 - 75, (int) (height * 0.6), 150, (int) (height * 0.07));
-        this.exit = createButton("Poistu", width / 2 - 75, (int) (height * 0.7), 150, (int) (height * 0.07));
+        this.startGame = createButton("", this.kl.getResources().getNEWGAME(), width / 2 - 125, (int) (height * 0.2), 250, (int) (height * 0.08));
+        this.highScore = createButton("", this.kl.getResources().getHISCRORE(), width / 2 - 125, (int) (height * 0.3), 250, (int) (height * 0.08));
+        this.settings = createButton("", this.kl.getResources().getOPTIONS(), width / 2 - 125, (int) (height * 0.4), 250, (int) (height * 0.08));
+        this.help = createButton("", this.kl.getResources().getHELP(), width / 2 - 125, (int) (height * 0.5), 250, (int) (height * 0.08));
+        this.exit = createButton("", this.kl.getResources().getEXIT(), width / 2 - 125, (int) (height * 0.6), 250, (int) (height * 0.08));
     }
 
-    public JButton createButton(String name, int x, int y, int width, int height) {
-        JButton button = new JButton(name);
+    public JButton createButton(String name, ImageIcon icon, int x, int y, int width, int height) {
+        JButton button = new JButton(name, new ImageIcon(icon.getImage().getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH)));
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
         button.setBounds(x, y, width, height);
         button.addActionListener(this);
         return button;

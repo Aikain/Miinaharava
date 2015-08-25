@@ -9,11 +9,13 @@ import fi.gosu.miinaharava.ui.HexagonButton;
 import fi.gosu.miinaharava.ui.WindowActivatedListener;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class Game implements View {
+public class Game implements View, ActionListener {
 
     private final Kayttoliittyma kl;
     private Hopscotch mainHopscotch;
@@ -50,9 +52,11 @@ public class Game implements View {
 
         this.returnToMenuButton = new HexagonButton("Lopeta");
         this.returnToMenuButton.setBounds(returnToMenuX, returnToMenuY, width, height);
+        this.returnToMenuButton.addActionListener(this);
 
         this.newGameButton = new HexagonButton("Uusi peli");
         this.newGameButton.setBounds(newGameX, newGameY, width, height);
+        this.newGameButton.addActionListener(this);
     }
 
     private void startGame() {
@@ -89,7 +93,6 @@ public class Game implements View {
         }
         this.kl.getFrame().addMouseListener(this.clickListener);
         this.kl.getFrame().addWindowListener(windowListener);
-        this.counter.start();
     }
 
     public void onInactive() {
@@ -111,6 +114,7 @@ public class Game implements View {
             noteAboutGameEnded();
         } else if (!clicked.isCreated()) {
             clicked.generateMinePositions(0);
+            this.counter.start();
         }
         if (!clicked.open()) {
             lose();
@@ -161,5 +165,19 @@ public class Game implements View {
 
     private void noteAboutGameEnded() {
         JOptionPane.showMessageDialog(kl.getFrame(), "Peli loppui jo.");
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == this.returnToMenuButton) {
+            this.kl.menu();
+        } else if (e.getSource() == this.newGameButton) {
+            this.counter.stop(true);
+            this.counter.reset();
+            this.startGame();
+            this.tf.setText("--:--:---");
+            this.addToContainer(this.kl.getFrame().getContentPane());
+            this.repaint();
+        }
     }
 }

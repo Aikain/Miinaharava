@@ -22,6 +22,7 @@ public class TimeCounter {
         this.timer = new Timer(53, new ClockListener());
         timer.setInitialDelay(0);
         this.end = false;
+        this.startTime = -1L;
     }
 
     public void start() {
