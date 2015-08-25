@@ -21,8 +21,8 @@ public class Game implements View {
     public Game(Kayttoliittyma kl) {
         this.kl = kl;
         this.clickListener = new ClickListener(this);
+        this.gameHasEnded = true;
         createButtons();
-        startGame();
     }
 
     private void createButtons(){

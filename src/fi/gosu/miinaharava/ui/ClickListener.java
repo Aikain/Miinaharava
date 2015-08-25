@@ -15,11 +15,6 @@ public class ClickListener implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
-            this.game.leftMouseClicked(e.getX(), e.getY());
-        } else if (e.getButton() == MouseEvent.BUTTON3) {
-            this.game.rightMouseClicked(e.getX(), e.getY());
-        }
     }
 
     @Override
@@ -28,6 +23,11 @@ public class ClickListener implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            this.game.leftMouseClicked(e.getX(), e.getY());
+        } else if (e.getButton() == MouseEvent.BUTTON3) {
+            this.game.rightMouseClicked(e.getX(), e.getY());
+        }
     }
 
     @Override

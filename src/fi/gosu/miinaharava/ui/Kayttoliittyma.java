@@ -14,7 +14,7 @@ import javax.xml.bind.JAXBException;
 public class Kayttoliittyma implements Runnable {
 
     private JFrame frame;
-    private final int screenWidth, screenHeight, width, height, deep;
+    private final int screenWidth, screenHeight;
     private final Resources r;
     private View currentView;
     private final View menu, game, highScore, settings, help;
@@ -32,11 +32,8 @@ public class Kayttoliittyma implements Runnable {
         this.c = c;
         this.screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
         this.screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
-        this.width = c.getWidth();
-        this.height = c.getHeight();
-        this.deep = c.getDeep();
         this.r = new Resources(c.getResDir());
-        this.menu = new Menu(this, width, height);
+        this.menu = new Menu(this, getWidth(), getHeight());
         this.game = new Game(this);
         this.highScore = new HighScore(this);
         this.settings = new Settings(this);
@@ -53,8 +50,8 @@ public class Kayttoliittyma implements Runnable {
             System.err.println("Shaped windows are not supported");
             System.exit(0);
         } else {
-            frame = new HexagonWindow(width, height, screenWidth / 2, screenHeight / 2);
-            frame.setContentPane(new Background(this.r, width, height));
+            frame = new HexagonWindow(getWidth(), getHeight(), screenWidth / 2, screenHeight / 2);
+            frame.setContentPane(new Background(this.r, getWidth(), getHeight()));
             createComponents(frame.getContentPane());
             frame.setVisible(true);
         }
@@ -74,21 +71,21 @@ public class Kayttoliittyma implements Runnable {
     }
 
     public int getWidth() {
-        return this.width;
+        return this.c.getWidth();
     }
 
     public int getHeight() {
-        return this.height;
+        return this.c.getHeight();
     }
 
     public int getDeep() {
-        return this.deep;
+        return this.c.getDeep();
     }
 
     public Resources getResources() {
         return this.r;
     }
-    
+
     public Config getConfig() {
         return this.c;
     }
@@ -96,8 +93,8 @@ public class Kayttoliittyma implements Runnable {
     private void changeView(View newView) {
         this.currentView.onInactive();
         this.currentView = newView;
-        this.currentView.addToContainer(this.frame.getContentPane());
         this.currentView.onResume();
+        this.currentView.addToContainer(this.frame.getContentPane());
         this.repaint();
     }
 
@@ -116,7 +113,7 @@ public class Kayttoliittyma implements Runnable {
     public void help() {
         changeView(this.help);
     }
-    
+
     public void menu() {
         changeView(this.menu);
     }
@@ -124,7 +121,7 @@ public class Kayttoliittyma implements Runnable {
     public void exit() {
         System.exit(-1);
     }
-    
+
     public void saveXml() {
         try {
             this.xml.writeToXml(c);
