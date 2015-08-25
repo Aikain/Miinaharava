@@ -21,9 +21,9 @@ public class Game implements View {
     public Game(Kayttoliittyma kl) {
         this.kl = kl;
         this.clickListener = new ClickListener(this);
+        this.gameHasEnded = true;
         this.hb = new HexagonButton("OK");
         this.hb.setBounds(200, 150, 150, 150);
-        startGame();
     }
 
     private void startGame() {
