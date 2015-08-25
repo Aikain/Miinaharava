@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 public class Miinaharava {
 
     public static void main(String[] args) throws IOException {
-        Kayttoliittyma kl = new Kayttoliittyma(1000, 1000, 8);
+        Kayttoliittyma kl = new Kayttoliittyma();
         SwingUtilities.invokeLater(kl);
     }
 }
