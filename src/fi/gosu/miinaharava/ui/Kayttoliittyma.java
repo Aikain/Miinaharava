@@ -7,7 +7,12 @@ import java.awt.Container;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.xml.bind.JAXBException;
 
@@ -127,6 +132,25 @@ public class Kayttoliittyma implements Runnable {
             this.xml.writeToXml(c);
         } catch (JAXBException ex) {
             System.out.println("Tallentaminen ei onnistunut");
+        }
+    }
+
+    public void restartApplication() {
+        try {
+            final String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+            final File currentJar = new File(Kayttoliittyma.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+            if (!currentJar.getName().endsWith(".jar")) {
+                return;
+            }
+            final ArrayList<String> command = new ArrayList<>();
+            command.add(javaBin);
+            command.add("-jar");
+            command.add(currentJar.getPath());
+            final ProcessBuilder builder = new ProcessBuilder(command);
+            builder.start();
+            System.exit(0);
+        } catch (URISyntaxException | IOException ex) {
+            System.out.println("Restart failed: " + ex.getMessage());
         }
     }
 }
