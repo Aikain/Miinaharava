@@ -4,7 +4,10 @@ import fi.gosu.miinaharava.ui.ClickListener;
 import fi.gosu.miinaharava.Hopscotch;
 import fi.gosu.miinaharava.ui.Kayttoliittyma;
 import fi.gosu.miinaharava.tool.Resources;
+import fi.gosu.miinaharava.ui.HexagonButton;
 import java.awt.Container;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 public class Game implements View {
@@ -13,10 +16,13 @@ public class Game implements View {
     private Hopscotch mainHopscotch;
     private ClickListener clickListener;
     private boolean gameHasEnded;
+    private JButton hb;
 
     public Game(Kayttoliittyma kl) {
         this.kl = kl;
         this.clickListener = new ClickListener(this);
+        this.hb = new HexagonButton("OK");
+        this.hb.setBounds(200, 150, 150, 150);
         startGame();
     }
 
@@ -26,7 +32,7 @@ public class Game implements View {
         int height = kl.getHeight();
         int deep = kl.getDeep();
         Resources r = kl.getResources();
-        this.mainHopscotch = new Hopscotch(width / 2, height / 2, r);
+        this.mainHopscotch = new Hopscotch(width / 2, height / 2, r, kl);
         for (int i = 0; i < deep; i++) {
             this.mainHopscotch.createNeightborhood(i + 1);
             this.mainHopscotch.clearCreated();
@@ -41,6 +47,7 @@ public class Game implements View {
 
     public void addToContainer(Container container) {
         container.removeAll();
+        container.add(this.hb);
         this.mainHopscotch.addToContainer(container);
     }
 
