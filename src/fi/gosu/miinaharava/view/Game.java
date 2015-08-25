@@ -20,16 +20,14 @@ public class Game implements View {
     private final ClickListener clickListener;
     private final WindowActivatedListener windowListener;
     private boolean gameHasEnded;
-    private JButton hb;
     private final TimeCounter counter;
     private final JTextField tf;
+    private JButton returnToMenuButton, newGameButton;
 
     public Game(Kayttoliittyma kl) {
         this.kl = kl;
         this.clickListener = new ClickListener(this);
         this.gameHasEnded = true;
-        this.hb = new HexagonButton("OK");
-        this.hb.setBounds(200, 150, 150, 150);
         this.tf = new JTextField("--:--:---");
         this.tf.setBounds((int) (this.kl.getWidth() * 0.55), (int) (this.kl.getHeight() * 0.13 - 30), 500, 50);
         this.tf.setBorder(null);
@@ -38,6 +36,23 @@ public class Game implements View {
         this.tf.setEditable(false);
         this.counter = new TimeCounter(tf);
         this.windowListener = new WindowActivatedListener(this.counter);
+        createButtons();
+    }
+
+    private void createButtons() {
+        int width = 100;
+        int height = 100;
+
+        int returnToMenuY = 100;
+        int returnToMenuX = 300;
+        int newGameY = returnToMenuY;
+        int newGameX = 200;
+
+        this.returnToMenuButton = new HexagonButton("Lopeta");
+        this.returnToMenuButton.setBounds(returnToMenuX, returnToMenuY, width, height);
+
+        this.newGameButton = new HexagonButton("Uusi peli");
+        this.newGameButton.setBounds(newGameX, newGameY, width, height);
     }
 
     private void startGame() {
@@ -61,7 +76,8 @@ public class Game implements View {
 
     public void addToContainer(Container container) {
         container.removeAll();
-        container.add(this.hb);
+        container.add(this.returnToMenuButton);
+        container.add(this.newGameButton);
         this.mainHopscotch.addToContainer(container);
         container.add(this.tf);
     }
