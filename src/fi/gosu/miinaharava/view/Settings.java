@@ -45,9 +45,9 @@ public class Settings implements View, ActionListener {
             }
             Stream<Path> walk = Files.walk(myPath, 1);
             for (Iterator<Path> it = walk.iterator(); it.hasNext();) {
-                String[] name = it.next().toString().split("resources\\\\");
-                if (name.length == 2) {
-                    paths.add(name[1]);
+                String[] name = it.next().toString().replace("\\", "/").split("resources/");
+                if (name.length >= 2) {
+                    paths.add(name[1].replace("/", ""));
                 }
             }
         } catch (URISyntaxException | IOException ex) {
@@ -112,6 +112,7 @@ public class Settings implements View, ActionListener {
             this.kl.getConfig().setHeight(Integer.parseInt(size[1]));
             this.kl.getConfig().setDeep(Integer.parseInt(deepBox.getSelectedItem().toString()));
             this.kl.saveXml();
+            this.kl.restartApplication();
             this.kl.menu();
         } else if (e.getSource() == this.cancel) {
             this.kl.menu();
