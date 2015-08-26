@@ -29,8 +29,8 @@ public class Game implements View {
         int width = 100;
         int height = 100;
         
-        int returnToMenuY = 100;
-        int returnToMenuX = 300;
+        int returnToMenuY = kl.getHeight() - height;
+        int returnToMenuX = 400;
         int newGameY = returnToMenuY;
         int newGameX = 200;
         
