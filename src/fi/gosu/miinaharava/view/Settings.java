@@ -106,13 +106,16 @@ public class Settings implements View, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.save) {
-            this.kl.getConfig().setResDir(this.resBox.getSelectedItem().toString());
-            String[] size = this.sizeBox.getSelectedItem().toString().split("x");
-            this.kl.getConfig().setWidth(Integer.parseInt(size[0]));
-            this.kl.getConfig().setHeight(Integer.parseInt(size[1]));
             this.kl.getConfig().setDeep(Integer.parseInt(deepBox.getSelectedItem().toString()));
+            String[] size = this.sizeBox.getSelectedItem().toString().split("x");
+            if (!this.kl.getConfig().getResDir().equals(this.resBox.getSelectedItem().toString()) || !this.kl.getConfig().getWidth().equals(Integer.parseInt(size[0])) || !this.kl.getConfig().getHeight().equals(Integer.parseInt(size[1]))) {
+                this.kl.getConfig().setResDir(this.resBox.getSelectedItem().toString());
+                this.kl.getConfig().setWidth(Integer.parseInt(size[0]));
+                this.kl.getConfig().setHeight(Integer.parseInt(size[1]));
+                this.kl.saveXml();
+                this.kl.restartApplication();
+            }
             this.kl.saveXml();
-            this.kl.restartApplication();
             this.kl.menu();
         } else if (e.getSource() == this.cancel) {
             this.kl.menu();
