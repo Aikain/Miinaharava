@@ -61,7 +61,7 @@ public class HexagonButton extends JButton
 
         m_nStringWidthMax = fm.stringWidth(this.getText());
         m_nStringWidthMax
-            = Math.max(m_nStringWidthMax, fm.stringWidth(this.getText()));
+                = Math.max(m_nStringWidthMax, fm.stringWidth(this.getText()));
 
         //WARNING: use getMargin. it refers to dist btwn text and border.
         //also use getInsets. it refers to the width of the border
@@ -91,7 +91,7 @@ public class HexagonButton extends JButton
         this.setPreferredSize(new Dimension(nWidth, nHeight));
 
         updateShape();
-        this.setShape();
+        setShape();
     }
 
     ////////////////////////////////////////////////
@@ -123,20 +123,8 @@ public class HexagonButton extends JButton
             RenderingHints.VALUE_ANTIALIAS_ON
         );
         g2.setRenderingHints(hints);
-
-        if (getModel().isArmed()) {
-            g2.setColor(Color.cyan);
-        } else {
-            if (this.hasFocus()) {
-                g2.setColor(Color.blue);
-            } else {
-                g2.setColor(Color.yellow);
-            }
-        }
-
+        g2.setColor(Color.BLUE);
         g2.fill(m_areaFill);
-
-        super.paintComponent(g2);
     }
 
     ////////////////////////////////////////////////
@@ -152,10 +140,10 @@ public class HexagonButton extends JButton
         Stroke strokeOld = g2.getStroke();
         g2.setStroke(
             new BasicStroke(
-                BORDER_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+                    BORDER_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
         );
 
-        if (this.hasFocus()) {
+        if (this.isFocusOwner()) {
             g2.setColor(Color.white);
         } else {
             g2.setColor(Color.black);
@@ -172,10 +160,10 @@ public class HexagonButton extends JButton
         }
         return m_shape.contains(nX, nY);
     }
+    
     ////////////////////////////////////////////////
     ////////////////////////////////////////////////
     //Needed if we want this button to resize
-
     public void componentResized(ComponentEvent e) {
         updateShape();
         this.setShape();
