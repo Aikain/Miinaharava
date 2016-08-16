@@ -88,8 +88,9 @@ public class Game implements View, ActionListener {
 
     public void onResume() {
         if (this.gameHasEnded) {
-            startGame();
+            this.tf.setText("--:--:---");
             this.counter.reset();
+            startGame();
         }
         this.kl.getFrame().addMouseListener(this.clickListener);
         this.kl.getFrame().addWindowListener(windowListener);
